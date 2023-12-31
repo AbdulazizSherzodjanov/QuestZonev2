@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags%}
+{% block content %}
+<div class="container my-5">
+    <div class="row">
+        <div class="col-12 col-md-5 mt-6 offset-md-3 mt-5">
+            <div class="card shadow p-2">
+                <h3>Logout Page</h3>
+                <hr>
+                   <div class="alert alert-success">
+                       You have been logged out
+                   </div>
+                    <a class="btn btn-outline-info w-25 mx-auto" href="{% url 'login-page' %}">Login In</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

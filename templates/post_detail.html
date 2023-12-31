@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}
+<title>{{post.title}}</title>
+{% endblock title %}
+{% block content %}
+<div class="container">
+    <div class="row mt-5 pt-3">
+        <div class="col-md-8 offset-md-2">
+            <div class="card my-3 shadow">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <img class="img-thumbnail" src="{{ post.author.profilemodel.image.url }}" alt="profile-img">
+                            <img src="/media/profil.png" alt="" height="15" width="15"> Author : {{ post.author }}<br>
+                            <small><img src="/media/date.png" alt="" height="20" width="20"> {{post.create_at}}</small>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="d-flex justify-content-between">
+                                <small> {{ post.created_at }}</small>
+                                {% if post.author == request.user %}
+                                <div>
+                                    <span><a class="btn btn-danger mx-2 float-right btn-sm"
+                                             href="{% url 'post_delete-page' post.id %}">Delete</a></span>
+                                    <span><a class="btn btn-primary mx-2 float-right btn-sm"
+                                             href="{% url 'post_edit-page' post.id %}">Edit</a></span>
+                                </div>
+                                {% endif %}
+                            </div>
+                            <hr>
+                            <h4>{{ post.title }}</h4>
+                            <p>
+                                {{ post.content }}
+                            </p>
+                            <p>
+                                <img src="/media/comment.png" alt="" width="23" height="23"> : 
+                                <a class=" " data-bs-toggle="collapse" href="#collapseExample" role="button"
+                                   aria-expanded="false" aria-controls="collapseExample">
+                                    {{post.comment_count}} comments
+                                </a>
+                            <div class="collapse" id="collapseExample">
+                                <div class="card card-body">
+
+                                    {% for comment in post.comments %}
+                                    <p><b><img src="{{post.author.profilemodel.image.url}}" alt="User Img" width="25" height="35" >   {{comment.user}}</b> : {{comment.content}}</p>
+
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            
+                            <form method="POST">
+                                {% csrf_token %}
+                                {{ c_form|crispy }}
+                                {% if user.is_authenticated %}    
+                                <input class="btn btn-primary btn-sm my-2"
+                                    type="submit" value="Comment">
+                            {% else %}
+                            <input class="btn btn-primary btn-sm my-2 disabled"
+                            type="submit" value="Cancel">
+                            </form>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

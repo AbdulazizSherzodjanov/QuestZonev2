@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}
+<title>New Post</title>
+{% endblock title %}
+
+{% block content %}
+{% for message in messages %}
+{% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+<div class="alert alert-success" role="alert">
+    {{message}}
+  </div>
+{% else %}
+<div class="alert alert-danger" role="alert">
+    Something went wrong!
+  </div>
+{% endif %}
+{% endfor %}
+{% if user.is_authenticated %}
+<div class="container my-5">
+    <div class="row">
+        <div class="col-12 col-md-4 mt-5">
+            <div class="card shadow p-2">
+
+                <form method="POST">
+                    {% csrf_token %}
+                    {{ form | crispy }}
+                    <button class="btn btn-info my-2">Add Post</button>
+                </form>
+                <h5><img src="/media/warning.png" alt="" width="22" height="22">
+                    If your question or article is
+                    off-topic and inappropriate, your question or article will
+                    be deleted</h4>
+            </div>
+        </div>
+        
+        {% else %}
+        <div class="container my-5">
+            <div class="row">
+                <div class="col-12 col-md-4 mt-5">
+                    <div class="card shadow p-2">
+        
+                        <form method="POST">
+                            {% csrf_token %}
+                            {{form | crispy}}
+                            <button class="btn btn-info my-2 btn btn-primary disabled">Add
+                                Post</button>
+                        </form>
+                        <h5><img src="/media/warning.png" alt="" width="22" height="22">
+                            If your question or article is
+                            off-topic and inappropriate, your question or article will
+                            be deleted</h4>
+                    </div>
+                </div>
+                
+{% endif %}
+{% endblock %}

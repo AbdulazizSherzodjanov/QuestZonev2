@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}
+<title>QuestZone</title>
+{% endblock title %}
+
+{% block content %}
+{% include 'menu.html' %}
+<div class="container my-5">
+    <div class="row">
+        <div class="col-12 col-md-6 mt-5"></div>
+        <div class="col-12 col-md-8 mt-5">
+            {% for post in posts %}
+            
+            <div class="card shadow p-2 my-2">
+                <div class="row">
+                    <div class="col-12 col-md-4">
+                        <img src="/media/{{post.author.profilemodel.image}}" alt="img" class="img-fluid">
+                        <h6><img src="/media/user.png" alt="" width="15" height="15"> User: {{post.author}}</h6>
+                        <h6>Comments : {{post.comment_count}}</h6>
+                    </div>
+                    <div class="col-12 col-md-8">
+                        <small>
+                            <img
+                                src="/media/date.png"
+                                alt=""
+                                height="20"
+                                width="20"
+                            > {{post.create_at|date:"t-N l h:i"}}
+                        </small>
+                        <hr>
+                        <a href="{% url 'post_detail-page' post.id %}" class="h4 text-decoration-none">{{post.title | truncatechars:50 }}</a>
+                        <p class="text-justify my-3" style="text-align:justify;">
+                            {{post.content | truncatechars:150}}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
